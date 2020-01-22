@@ -6,7 +6,9 @@ public class ArtPointBrige
         int noOfVertices = g.noOfVertices;
 
         int[] parIds = new int[noOfVertices];
+
         int[] depth = new int[noOfVertices];
+        int[] low = new int[noOfVertices];
 
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
@@ -18,7 +20,9 @@ public class ArtPointBrige
         for (int vId = 0; vId < noOfVertices; vId++)
         {
             parIds[vId] = -1;
+
             depth[vId] = -1;
+            low[vId] = -1;
 
             visited[vId] = false;
             neighIndex[vId] = 0;
@@ -66,6 +70,22 @@ public class ArtPointBrige
                 stackSize--; // Pop;
 
                 // *** Post-order for vId ***
+
+                // Compute lowpoint of v.
+                // low(v) = { depth(w) | w in N[u], u is descendant of v (inclusive). }
+                low[vId] = depth[vId];
+
+                for (int i = 0; i < g.edges[vId].length; i++)
+                {
+                    int uId = g.edges[vId][i];
+
+                    low[vId] = Math.min(low[vId], depth[uId]);
+
+                    if (parIds[uId] == vId)
+                    {
+                        low[vId] = Math.min(low[vId], low[uId]);
+                    }
+                }
             }
         }
 
