@@ -7,13 +7,6 @@ public class ArtPointBrige
 
         int[] parIds = new int[noOfVertices];
 
-        int[] preOrder = new int[noOfVertices];
-        int[] postOrder = new int[noOfVertices];
-
-        int preCount = 0;
-        int postCount = 0;
-
-
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
         int[] stack = new int[noOfVertices];
@@ -24,9 +17,6 @@ public class ArtPointBrige
         for (int vId = 0; vId < noOfVertices; vId++)
         {
             parIds[vId] = -1;
-
-            preOrder[vId] = -1;
-            postOrder[vId] = -1;
 
             visited[vId] = false;
             neighIndex[vId] = 0;
@@ -46,8 +36,6 @@ public class ArtPointBrige
                 visited[vId] = true;
 
                 // *** Pre-order for vId ***
-                preOrder[preCount] = vId;
-                preCount++;
             }
 
             if (nInd < g.edges[vId].length)
@@ -71,8 +59,6 @@ public class ArtPointBrige
                 stackSize--; // Pop;
 
                 // *** Post-order for vId ***
-                postOrder[postCount] =  vId;
-                postCount++;
             }
         }
 
