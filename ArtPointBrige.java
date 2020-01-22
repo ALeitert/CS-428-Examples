@@ -10,6 +10,9 @@ public class ArtPointBrige
         int[] depth = new int[noOfVertices];
         int[] low = new int[noOfVertices];
 
+        int[] apIds = new int[noOfVertices];
+        int apSize = 0;
+
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
         int[] stack = new int[noOfVertices];
@@ -84,9 +87,35 @@ public class ArtPointBrige
                     if (parIds[uId] == vId)
                     {
                         low[vId] = Math.min(low[vId], low[uId]);
+
+                        // Check if v is articulation point.
+                        // If v is not the root, then v is an art. point if and oly if
+                        // v has a child u with low(u) >= depth(v).
+                        if (vId != startId && low[uId] >= depth[vId])
+                        {
+                            // v is an art. point.
+                            apIds[apSize] = vId;
+                            apSize++;
+                        }
                     }
                 }
             }
+        }
+
+        // Check if root is an articulation point.
+        // The roof is an art. point if and only if it has at least two children.
+        int childCtr = 0;
+        for (int i = 0; i < g.edges[startId].length; i++)
+        {
+            int uId = g.edges[startId][i];
+            if (parIds[uId] == startId) childCtr++;
+        }
+
+        if (childCtr > 1)
+        {
+            // Root is an articulation point.
+            apIds[apSize] = startId;
+            apSize++;
         }
 
         return null;
