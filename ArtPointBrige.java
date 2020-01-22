@@ -6,6 +6,7 @@ public class ArtPointBrige
         int noOfVertices = g.noOfVertices;
 
         int[] parIds = new int[noOfVertices];
+        int[] depth = new int[noOfVertices];
 
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
@@ -17,6 +18,7 @@ public class ArtPointBrige
         for (int vId = 0; vId < noOfVertices; vId++)
         {
             parIds[vId] = -1;
+            depth[vId] = -1;
 
             visited[vId] = false;
             neighIndex[vId] = 0;
@@ -36,6 +38,11 @@ public class ArtPointBrige
                 visited[vId] = true;
 
                 // *** Pre-order for vId ***
+
+                // Vertices on stack are ancestors of v.
+                // Hence, hight of stack is depth of current vertex.
+                // (We subtract 1 to ensure root has depth 0.)
+                depth[vId] = stackSize - 1;
             }
 
             if (nInd < g.edges[vId].length)
