@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class ArtPointBrige
 {
@@ -75,7 +76,7 @@ public class ArtPointBrige
                 // *** Post-order for vId ***
 
                 // Compute lowpoint of v.
-                // low(v) = { depth(w) | w in N[u], u is descendant of v (inclusive). }
+                // low(v) = min { depth(w) | w in N[u], u is descendant of v (inclusive). }
                 low[vId] = depth[vId];
 
                 for (int i = 0; i < g.edges[vId].length; i++)
@@ -103,7 +104,7 @@ public class ArtPointBrige
         }
 
         // Check if root is an articulation point.
-        // The roof is an art. point if and only if it has at least two children.
+        // The root is an art. point if and only if it has at least two children.
         int childCtr = 0;
         for (int i = 0; i < g.edges[startId].length; i++)
         {
@@ -118,7 +119,7 @@ public class ArtPointBrige
             apSize++;
         }
 
-        return null;
+        return Arrays.copyOf(apIds, apSize);
     }
 }
 
