@@ -1,13 +1,8 @@
 
 public class ArtPointBrige
 {
-    public static int[][] articulationPoints(Graph g, int startId)
+    public static int[] artPoints(Graph g, int startId)
     {
-        // Output data
-        // 0: parent-IDs of DFS-tree
-        // 1: pre-order
-        // 2: post-order
-
         int noOfVertices = g.noOfVertices;
 
         int[] parIds = new int[noOfVertices];
@@ -81,12 +76,7 @@ public class ArtPointBrige
             }
         }
 
-        return new int[][]
-        {
-            parIds,
-            preOrder,
-            postOrder
-        };
+        return null;
     }
 }
 
