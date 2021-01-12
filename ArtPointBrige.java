@@ -223,22 +223,6 @@ public class ArtPointBrige
             }
         }
 
-        // Check if root is an articulation point.
-        // The root is an art. point if and only if it has at least two children.
-        int childCtr = 0;
-        for (int i = 0; i < g.edges[startId].length; i++)
-        {
-            int uId = g.edges[startId][i];
-            if (parIds[uId] == startId) childCtr++;
-        }
-
-        if (childCtr > 1)
-        {
-            // Root is an articulation point.
-            brgBuffer[bbSize] = new int[] { startId };
-            bbSize++;
-        }
-
         return Arrays.copyOf(brgBuffer, bbSize);
     }
 }
