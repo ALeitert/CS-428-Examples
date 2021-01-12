@@ -201,23 +201,13 @@ public class ArtPointBrige
 
                 for (int i = 0; i < g.edges[vId].length; i++)
                 {
-                    int uId = g.edges[vId][i];
+                    int wId = g.edges[vId][i];
 
-                    low[vId] = Math.min(low[vId], depth[uId]);
+                    low[vId] = Math.min(low[vId], depth[wId]);
 
-                    if (parIds[uId] == vId)
+                    if (parIds[wId] == vId)
                     {
-                        low[vId] = Math.min(low[vId], low[uId]);
-
-                        // Check if v is articulation point.
-                        // If v is not the root, then v is an art. point if and oly if
-                        // v has a child u with low(u) >= depth(v).
-                        if (vId != startId && low[uId] >= depth[vId])
-                        {
-                            // v is an art. point.
-                            brgBuffer[bbSize] = new int[] { vId };
-                            bbSize++;
-                        }
+                        low[vId] = Math.min(low[vId], low[wId]);
                     }
                 }
             }
