@@ -10,6 +10,8 @@ public class SCC
         int[] preInd = new int[noOfVertices];
         int preCount = 0;
 
+        int[] low = new  int[noOfVertices];
+
 
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
@@ -21,8 +23,9 @@ public class SCC
         for (int vId = 0; vId < noOfVertices; vId++)
         {
             parIds[vId] = -1;
-
             preInd[vId] = -1;
+
+            low[vId] = -1;
 
             visited[vId] = false;
             neighIndex[vId] = 0;
@@ -67,6 +70,30 @@ public class SCC
                 stackSize--; // Pop;
 
                 // *** Post-order for vId ***
+
+                // Compute lowpoint of v.
+                // low(v) = min { pre(w) | w in N[u], u is descendant of v (inclusive). }
+                //        = min
+                //          (
+                //              pre(v),
+                //              min { pre(u) | u in N(v) },
+                //              min { low(u) | u is child of v }
+                //          )
+                // Note that, due to the nature of DFS, each neighbour u of v has already been processed.
+
+                low[vId] = preInd[vId];
+
+                for (int i = 0; i < g.edges[vId].length; i++)
+                {
+                    int uId = g.edges[vId][i];
+
+                    low[vId] = Math.min(low[vId], preInd[uId]);
+
+                    if (parIds[uId] == vId)
+                    {
+                        low[vId] = Math.min(low[vId], low[uId]);
+                    }
+                }
             }
         }
 
