@@ -7,7 +7,7 @@ public class SCC
 
         int[] parIds = new int[noOfVertices];
 
-        int[] preOrder = new int[noOfVertices];
+        int[] preInd = new int[noOfVertices];
         int preCount = 0;
 
 
@@ -22,7 +22,7 @@ public class SCC
         {
             parIds[vId] = -1;
 
-            preOrder[vId] = -1;
+            preInd[vId] = -1;
 
             visited[vId] = false;
             neighIndex[vId] = 0;
@@ -42,7 +42,7 @@ public class SCC
                 visited[vId] = true;
 
                 // *** Pre-order for vId ***
-                preOrder[preCount] = vId;
+                preInd[vId] = preCount;
                 preCount++;
             }
 
