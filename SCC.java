@@ -3,20 +3,12 @@ public class SCC
 {
     public static int[][] strConComps(Graph g, int startId)
     {
-        // Output data
-        // 0: parent-IDs of DFS-tree
-        // 1: pre-order
-        // 2: post-order
-
         int noOfVertices = g.noOfVertices;
 
         int[] parIds = new int[noOfVertices];
 
         int[] preOrder = new int[noOfVertices];
-        int[] postOrder = new int[noOfVertices];
-
         int preCount = 0;
-        int postCount = 0;
 
 
         // Helpers to compute DFS
@@ -31,7 +23,6 @@ public class SCC
             parIds[vId] = -1;
 
             preOrder[vId] = -1;
-            postOrder[vId] = -1;
 
             visited[vId] = false;
             neighIndex[vId] = 0;
@@ -76,17 +67,10 @@ public class SCC
                 stackSize--; // Pop;
 
                 // *** Post-order for vId ***
-                postOrder[postCount] =  vId;
-                postCount++;
             }
         }
 
-        return new int[][]
-        {
-            parIds,
-            preOrder,
-            postOrder
-        };
+        return null;
     }
 }
 
