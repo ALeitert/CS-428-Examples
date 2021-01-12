@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class SCC
 {
@@ -16,6 +17,7 @@ public class SCC
         int[] low = new  int[noOfVertices];
         boolean[] ignore = new boolean[noOfVertices];
 
+        ArrayList<int[]> output = new ArrayList<int[]>();
 
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
@@ -117,12 +119,21 @@ public class SCC
                         ignore[uId] = true;
                     }
 
+                    output.add(Arrays.copyOf(sccBuffer, bufCount));
+
                     bufCount = 0;
                 }
             }
         }
 
-        return null;
+        int[][] result = new int[output.size()][];
+
+        for (int i = 0; i < result.length; i++)
+        {
+            result[i] = output.get(i);
+        }
+
+        return result;
     }
 }
 
