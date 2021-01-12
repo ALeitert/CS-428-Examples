@@ -210,6 +210,32 @@ public class ArtPointBrige
                         low[vId] = Math.min(low[vId], low[wId]);
                     }
                 }
+
+
+                // Let u be parent of v in a rooted spanning tree.
+                // Then uv is a bridge if and only if
+                //   (a) low(v) = depth(u) and
+                //   (b) low(w) = depth(v) for all children w of v.
+
+                int uId = parIds[vId];
+
+                boolean condA = uId >= 0 && low[vId] == depth[uId];
+                boolean condB = true;
+
+                for (int i = 0; i < g.edges[vId].length; i++)
+                {
+                    int wId = g.edges[vId][i];
+                    if (parIds[wId] != vId) continue;
+
+                    condB &= low[wId] == depth[vId];
+                }
+
+                if (condA && condB)
+                {
+                    // uv is a bridge.
+                    brgBuffer[bbSize] = new int[] { uId, vId };
+                    bbSize++;
+                }
             }
         }
 
