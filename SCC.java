@@ -8,7 +8,10 @@ public class SCC
         int[] parIds = new int[noOfVertices];
 
         int[] preInd = new int[noOfVertices];
+        int[] sccBuffer = new int[noOfVertices];
+
         int preCount = 0;
+        int bufCount = 0;
 
         int[] low = new  int[noOfVertices];
 
@@ -70,6 +73,11 @@ public class SCC
                 stackSize--; // Pop;
 
                 // *** Post-order for vId ***
+
+                // Add v to buffer of processed vertices.
+                sccBuffer[bufCount] = vId;
+                bufCount++;
+
 
                 // Compute lowpoint of v.
                 // low(v) = min { pre(w) | w in N[u], u is descendant of v (inclusive). }
