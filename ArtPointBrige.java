@@ -122,7 +122,7 @@ public class ArtPointBrige
         return Arrays.copyOf(apIds, apSize);
     }
 
-    public static int[] bridges(Graph g, int startId)
+    public static int[][] bridges(Graph g, int startId)
     {
         int noOfVertices = g.noOfVertices;
 
@@ -131,8 +131,8 @@ public class ArtPointBrige
         int[] depth = new int[noOfVertices];
         int[] low = new int[noOfVertices];
 
-        int[] apIds = new int[noOfVertices];
-        int apSize = 0;
+        int[][] brgBuffer = new int[noOfVertices][];
+        int bbSize = 0;
 
         // Helpers to compute DFS
         int[] neighIndex = new int[noOfVertices];
@@ -215,8 +215,8 @@ public class ArtPointBrige
                         if (vId != startId && low[uId] >= depth[vId])
                         {
                             // v is an art. point.
-                            apIds[apSize] = vId;
-                            apSize++;
+                            brgBuffer[bbSize] = new int[] { vId };
+                            bbSize++;
                         }
                     }
                 }
@@ -235,10 +235,10 @@ public class ArtPointBrige
         if (childCtr > 1)
         {
             // Root is an articulation point.
-            apIds[apSize] = startId;
-            apSize++;
+            brgBuffer[bbSize] = new int[] { startId };
+            bbSize++;
         }
 
-        return Arrays.copyOf(apIds, apSize);
+        return Arrays.copyOf(brgBuffer, bbSize);
     }
 }
