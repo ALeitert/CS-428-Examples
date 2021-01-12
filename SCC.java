@@ -14,6 +14,7 @@ public class SCC
         int bufCount = 0;
 
         int[] low = new  int[noOfVertices];
+        boolean[] ignore = new boolean[noOfVertices];
 
 
         // Helpers to compute DFS
@@ -94,6 +95,7 @@ public class SCC
                 for (int i = 0; i < g.edges[vId].length; i++)
                 {
                     int uId = g.edges[vId][i];
+                    if (ignore[uId]) continue;
 
                     low[vId] = Math.min(low[vId], preInd[uId]);
 
@@ -101,6 +103,21 @@ public class SCC
                     {
                         low[vId] = Math.min(low[vId], low[uId]);
                     }
+                }
+
+
+                if (low[vId] == preInd[vId])
+                {
+                    // v is root of SCC.
+                    // Vertices in buffer form that SCC.
+
+                    for (int i = 0; i < bufCount; i++)
+                    {
+                        int uId = sccBuffer[i];
+                        ignore[uId] = true;
+                    }
+
+                    bufCount = 0;
                 }
             }
         }
