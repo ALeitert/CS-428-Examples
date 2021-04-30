@@ -76,4 +76,36 @@ public class ShortestPath
 
         return distances;
     }
+
+    public static int[] dijkstra(Graph g, int startId)
+    {
+        DijkstraHeap heap = new DijkstraHeap(g.noOfVertices);
+
+        // Initialise
+        for (int vId = 0; vId < g.noOfVertices; vId++)
+        {
+            heap.add(vId, Integer.MAX_VALUE);
+        }
+
+        heap.update(startId, 0);
+        int[] distances = heap.getValues();
+
+        while (heap.getSize() > 0)
+        {
+            int vId = heap.removeMin();
+
+            // Unreachable vertex.
+            if (distances[vId] == Integer.MAX_VALUE)
+            {
+                break;
+            }
+
+            for (int nIdx = 0; nIdx < g.edges[vId].length; nIdx++)
+            {
+                relax(g, vId, nIdx, distances);
+            }
+        }
+
+        return distances;
+    }
 }
