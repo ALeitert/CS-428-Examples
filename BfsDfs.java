@@ -44,9 +44,9 @@ public class BfsDfs
         while (stackSize > 0)
         {
             int vId = stack[stackSize - 1];
-            int nInd = neighIndex[vId];
+            int nIdx = neighIndex[vId];
 
-            if (nInd == 0)
+            if (nIdx == 0)
             {
                 visited[vId] = true;
 
@@ -55,9 +55,9 @@ public class BfsDfs
                 preCount++;
             }
 
-            if (nInd < g.edges[vId].length)
+            if (nIdx < g.edges[vId].length)
             {
-                int neighId = g.edges[vId][nInd];
+                int neighId = g.edges[vId][nIdx];
 
                 if (!visited[neighId])
                 {
@@ -89,7 +89,7 @@ public class BfsDfs
         };
     }
 
-    public int[][] bfs(Graph g, int startId)
+    public static int[][] bfs(Graph g, int startId)
     {
         // Output data
         // 0: distances from start vertex
@@ -117,21 +117,21 @@ public class BfsDfs
         q[0] = startId;
         int qSize = 1;
 
-        for (int qInd = 0; qInd < qSize; qInd++)
+        for (int qIdx = 0; qIdx < qSize; qIdx++)
         {
-            int vInd = q[qInd];
-            int nDis = distances[vInd] + 1;
+            int vId = q[qIdx];
+            int nDis = distances[vId] + 1;
 
-            for (int nInd = 0; nInd < g.edges[vInd].length; nInd++)
+            for (int nIdx = 0; nIdx < g.edges[vId].length; nIdx++)
             {
-                int uInd = g.edges[vInd][nInd];
+                int uId = g.edges[vId][nIdx];
 
-                if (nDis < distances[uInd])
+                if (nDis < distances[uId])
                 {
-                    distances[uInd] = nDis;
-                    parents[uInd] = vInd;
+                    distances[uId] = nDis;
+                    parents[uId] = vId;
 
-                    q[qSize] = uInd;
+                    q[qSize] = uId;
                     qSize++;
                 }
             }
