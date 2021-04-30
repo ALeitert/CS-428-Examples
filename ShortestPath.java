@@ -179,4 +179,67 @@ public class ShortestPath
 
         return curDist;
     }
+
+    public static int[][] johnson(Graph g)
+    {
+        int n = g.noOfVertices;
+
+
+        // --- Make new graph with dummy vertex. ---
+
+        Graph qGraph = new Graph();
+
+        qGraph.noOfVertices = n + 1;
+        qGraph.edges = Arrays.copyOf(g.edges, n + 1);
+        qGraph.weights = Arrays.copyOf(g.weights, n + 1);
+
+        qGraph.edges[n] = new int[n];
+        qGraph.weights[n] = new int[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            qGraph.edges[n][i] = i;
+        }
+
+
+        // --- Run Bellman-Ford on dummy vertex. ---
+
+        int[] qDist = bellmanFord(g, n);
+
+        // Negative cylce found.
+        if (qDist == null) return null;
+
+
+        // --- Update distances. ---
+
+        for (int uId = 0; uId < n; uId++)
+        {
+            int[] uNeis = g.edges[uId];
+            int[] uWeis = g.weights[uId];
+
+            int hU = qDist[uId];
+
+            for (int nIdx = 0; nIdx < uNeis.length; nIdx++)
+            {
+                int vId = uNeis[nIdx];
+
+                int uvW = uWeis[vId];
+                int hV = qDist[vId];
+
+                qGraph.weights[uId][nIdx] = uvW + hU - hV;
+            }
+        }
+
+
+        // --- Run Dijkstra on each vertex. ---
+
+        int[][] result = new int[n][];
+
+        for (int uId = 0; uId < n; uId++)
+        {
+            result[uId] = dijkstra(qGraph, uId);
+        }
+
+        return result;
+    }
 }
