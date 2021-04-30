@@ -40,6 +40,11 @@ public class ShortestPath
         return false;
     }
 
+
+    // -------------------------------------------
+    // - - - - Single Source Shortest Path - - - -
+
+
     public static int[] bellmanFord(Graph g, int startId)
     {
         int[] distances = new int[g.noOfVertices];
@@ -107,5 +112,71 @@ public class ShortestPath
         }
 
         return distances;
+    }
+
+
+    // ---------------------------------------
+    // - - - - All Pairs Shortest Path - - - -
+
+
+    public static int[][] floydWarshall(Graph g)
+    {
+        final int n = g.noOfVertices;
+
+        int[][] curDist = new int[n][n];
+        int[][] newDist = new int[n][n];
+
+
+        // Initialise matrix.
+        for (int vId = 0; vId < n; vId++)
+        {
+            Arrays.fill(curDist[vId], Integer.MAX_VALUE);
+            curDist[vId][vId] = 0;
+
+            int[] neighs = g.edges[vId];
+
+            for (int nIdx = 0; nIdx < neighs.length; nIdx++)
+            {
+                int uId = neighs[nIdx];
+                curDist[uId] = g.weights[nIdx];
+            }
+        }
+
+
+        // Run algorithm.
+        for (int k = 0; k < n; k++)
+        {
+            int[] kDist = curDist[k];
+
+            for (int uId = 0; uId < n; uId++)
+            {
+                int[] uDist = curDist[uId];
+                int[] nDist = newDist[uId];
+
+                for (int vId = 0; vId < n; vId++)
+                {
+                    int uvDis = uDist[vId];
+                    int ukDis = uDist[k];
+                    int kvDis = kDist[vId];
+
+                    // Avoid overflow.
+                    if (Math.max(ukDis, kvDis) < Integer.MAX_VALUE)
+                    {
+                        nDist[vId] = Math.min(uvDis, ukDis + kvDis);;
+                    }
+                    else
+                    {
+                        nDist[vId] = uvDis;
+                    }
+                }
+            }
+
+            // Swap matrices.
+            int[][] tmp = newDist;
+            newDist = curDist;
+            curDist = tmp;
+        }
+
+        return curDist;
     }
 }
