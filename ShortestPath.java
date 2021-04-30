@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class ShortestPath
 {
@@ -37,5 +38,39 @@ public class ShortestPath
         }
 
         return false;
+    }
+
+    public static int[] bellmanFord(Graph g, int startId)
+    {
+        int[] distances = new int[g.noOfVertices];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[startId] = 0;
+
+        HashSet<Integer> updatedLast = new HashSet<Integer>();
+        HashSet<Integer> updateNext = new HashSet<Integer>();
+
+        updatedLast.add(startId);
+
+        while (updatedLast.size() > 0)
+        {
+            for (int vId : updatedLast)
+            {
+                for (int nIdx = 0; nIdx < g.edges[vId].length; nIdx++)
+                {
+                    if (relax(g, vId, nIdx, distances))
+                    {
+                        updateNext.add(g.edges[vId][nIdx]);
+                    }
+                }
+            }
+
+            updatedLast.clear();
+
+            HashSet<Integer> tmp = updatedLast;
+            updatedLast = updateNext;
+            updateNext = tmp;
+        }
+
+        return distances;
     }
 }
