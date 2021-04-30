@@ -51,8 +51,11 @@ public class ShortestPath
 
         updatedLast.add(startId);
 
-        while (updatedLast.size() > 0)
+        for (int i = 1; updatedLast.size() > 0; i++)
         {
+            // Avoid endless loops in case of negative cycles.
+            if (i >= g.noOfVertices) return null;
+
             for (int vId : updatedLast)
             {
                 for (int nIdx = 0; nIdx < g.edges[vId].length; nIdx++)
