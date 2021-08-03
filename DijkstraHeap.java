@@ -182,7 +182,7 @@ public class DijkstraHeap
             }
 
             swapKeys(smallInd, index);
-            heapify(smallInd);
+            index = smallInd;
         }
     }
 
